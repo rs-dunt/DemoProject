@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { theme } from './src/core/Theme'
+import { theme } from './src/core/theme'
 import {
   SplashScreen,
   LoginScreen,

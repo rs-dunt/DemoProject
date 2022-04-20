@@ -1,7 +1,7 @@
-mport React from 'react'
+import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Button as PaperButton } from 'react-native-paper'
-import { theme } from '../core/Theme'
+import { theme } from '../core/theme'
 
 export default function Button({ mode, style, ...props }) {
   return (

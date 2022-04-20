@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import Background from '../components/Background'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
 import Button from '../components/Button'
 import TextInput from '../components/TextInput'
-import BackButton from '../components/BackButton'
 import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
@@ -14,7 +12,28 @@ import { passwordValidator } from '../helpers/passwordValidator'
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
+  // fetch('https://mockapi.io/projects/625f91c453a42eaa07f6fbd5');
+  const login = async () => {
+    console.debug('hi');
+    // fetch('https://mockapi.io/projects/625f91c453a42eaa07f6fbd5/Users')
+    //   .then((response) => response.json())
+    //   .then((responseJson) => {
+    //     console.debug('win');
+    //   })
+    //   .catch((error) => {
+    //     console.debug('error :((');
+    //   });
+    const apiURL = 'https://mockapi.io/projects/625f91c453a42eaa07f6fbd5';
+    fetch(apiURL).then((response) => response.json()).then((json) => {
+      console.debug('win');
+    }).catch((error) => {
+      console.debug('error :((');
+      console.debug(error);
+    }).finally(() =>{
+      console.debug('finally');
+    });
 
+  }
   const onLoginPressed = () => {
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
@@ -30,10 +49,9 @@ export default function LoginScreen({ navigation }) {
   }
 
   return (
-    <Background>
-      <BackButton goBack={navigation.goBack} />
+    <View style={styles.container}>
       <Logo />
-      <Header>Welcome back.</Header>
+      <Header>Instagram</Header>
       <TextInput
         label="Email"
         returnKeyType="next"
@@ -57,12 +75,12 @@ export default function LoginScreen({ navigation }) {
       />
       <View style={styles.forgotPassword}>
         <TouchableOpacity
-          // onPress={() => navigation.navigate('ResetPasswordScreen')}
+        // onPress={() => navigation.navigate('ResetPasswordScreen')}
         >
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
+      <Button mode="contained" onPress={login}>
         Login
       </Button>
       <View style={styles.row}>
@@ -71,11 +89,23 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
-    </Background>
+    </View >
+    // <Background>
+    //   <BackButton goBack={navigation.goBack} />
+    //   <Logo />
+
+    // </Background>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 16,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   forgotPassword: {
     width: '100%',
     alignItems: 'flex-end',
