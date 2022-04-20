@@ -23,7 +23,7 @@ export default function LoginScreen({ navigation }) {
     //   .catch((error) => {
     //     console.debug('error :((');
     //   });
-    const apiURL = 'https://mockapi.io/projects/625f91c453a42eaa07f6fbd5';
+    const apiURL = 'https://mockapi.io/projects/625f91c453a42eaa07f6fbd5/User';
     fetch(apiURL).then((response) => response.json()).then((json) => {
       console.debug('win');
     }).catch((error) => {
