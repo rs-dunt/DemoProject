@@ -34,7 +34,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SplashScreen"
+        initialRouteName="HomeScreen"
         screenOptions={{
           headerShown: false,
         }}

@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     column: {
-        flex: 1,
-        position: 'absolute',
+        // flex: 1,
+        // position: 'absolute',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
         // flex: 1,
         flexDirection: 'row',
         // alignItems: 'stretch',
-        // justifyContent: 'flex-start',
+        justifyContent: 'flex-start',
     },
 });
