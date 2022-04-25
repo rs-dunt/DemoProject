@@ -113,6 +113,6 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
+    color: "#49A6ED",
   },
 })

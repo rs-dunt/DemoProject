@@ -1,51 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import Logo from '../components/Logo'
 import Header from '../components/Header'
 import Button from '../components/Button'
 import TextInput from '../components/TextInput'
-import { theme } from '../core/theme'
 import { emailValidator } from '../helpers/emailValidator'
 import { passwordValidator } from '../helpers/passwordValidator'
 
 export default function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
-  // fetch('https://mockapi.io/projects/625f91c453a42eaa07f6fbd5');
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
+  const [data, setData] = useState([]);
+  const [found, setFound] = useState([]);
   const login = async () => {
-    console.debug('hi');
-    // fetch('https://mockapi.io/projects/625f91c453a42eaa07f6fbd5/Users')
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     console.debug('win');
-    //   })
-    //   .catch((error) => {
-    //     console.debug('error :((');
-    //   });
-    const apiURL = 'https://mockapi.io/projects/625f91c453a42eaa07f6fbd5/User';
-    fetch(apiURL).then((response) => response.json()).then((json) => {
-      console.debug('win');
-    }).catch((error) => {
-      console.debug('error :((');
-      console.debug(error);
-    }).finally(() =>{
-      console.debug('finally');
-    });
+    console.log('login');
+    fetch('https://625f91c453a42eaa07f6fbd4.mockapi.io/Users')
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json);
+      })
+      .catch((error) => console.debug(error));
+    setFound(data.find(element => element.username == 'name 1' && element.password == 'password 1'));
+    console.log(found);
 
-  }
+  };
+
   const onLoginPressed = () => {
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
+    console.log(email.value);
+    login();
     if (emailError || passwordError) {
       setEmail({ ...email, error: emailError })
       setPassword({ ...password, error: passwordError })
       return
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
   }
 
   return (
@@ -74,13 +64,9 @@ export default function LoginScreen({ navigation }) {
         secureTextEntry
       />
       <View style={styles.forgotPassword}>
-        <TouchableOpacity
-        // onPress={() => navigation.navigate('ResetPasswordScreen')}
-        >
-          <Text style={styles.forgot}>Forgot your password?</Text>
-        </TouchableOpacity>
+        <Text style={styles.forgot}>Forgot your password?</Text>
       </View>
-      <Button mode="contained" onPress={login}>
+      <Button mode="contained" onPress={onLoginPressed}>
         Login
       </Button>
       <View style={styles.row}>
@@ -90,11 +76,6 @@ export default function LoginScreen({ navigation }) {
         </TouchableOpacity>
       </View>
     </View >
-    // <Background>
-    //   <BackButton goBack={navigation.goBack} />
-    //   <Logo />
-
-    // </Background>
   )
 }
 
@@ -117,10 +98,10 @@ const styles = StyleSheet.create({
   },
   forgot: {
     fontSize: 13,
-    color: theme.colors.secondary,
+    color: '#6F6E6E',
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
+    color: "#49A6ED",
   },
 })
