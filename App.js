@@ -7,7 +7,8 @@ import {
   SplashScreen,
   LoginScreen,
   RegisterScreen,
-  Dashboard
+  Dashboard,
+  HomeScreen
 } from './src/screens'
 
 const Stack = createNativeStackNavigator()
@@ -41,6 +42,7 @@ const App = () => {
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

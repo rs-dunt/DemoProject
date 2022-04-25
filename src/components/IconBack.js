@@ -1,6 +1,5 @@
-import React from 'react'
-import { TouchableOpacity, Image, StyleSheet } from 'react-native'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
+import React from 'react';
+import { TouchableOpacity, Image, StyleSheet } from 'react-native';
 
 export default function IconBack({ goBack }) {
   return (
@@ -10,17 +9,17 @@ export default function IconBack({ goBack }) {
         source={require('../assets/back_button.png')}
       />
     </TouchableOpacity>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 10,
+  
+    top: 0,
     left: 16,
   },
   image: {
     width: 35,
     height: 35,
   },
-})
+});

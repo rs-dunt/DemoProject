@@ -1,42 +1,51 @@
-import React, { useState, useEffect } from 'react'
-import { TouchableOpacity, StyleSheet, View } from 'react-native'
-import { Text } from 'react-native-paper'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import Button from '../components/Button'
-import TextInput from '../components/TextInput'
-import { emailValidator } from '../helpers/emailValidator'
-import { passwordValidator } from '../helpers/passwordValidator'
+import React, { useState } from 'react';
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
+import Logo from '../components/Logo';
+import Header from '../components/Header';
+import Button from '../components/Button';
+import TextInput from '../components/TextInput';
+import { emailValidator } from '../helpers/emailValidator';
+import { passwordValidator } from '../helpers/passwordValidator';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [data, setData] = useState([]);
-  const [found, setFound] = useState([]);
-  const login = async () => {
+  const [found, setFound] = useState();
+  const login = async (username, password) => {
     console.log('login');
     fetch('https://625f91c453a42eaa07f6fbd4.mockapi.io/Users')
-      .then((response) => response.json())
-      .then((json) => {
+      .then(response => response.json())
+      .then(json => {
         setData(json);
+        setFound(
+          data.find(
+            element =>
+              element.username === username && element.password === password,
+          ),
+        );
+        if (found != null) {
+          navigation.replace('HomeScreen');
+        };
       })
-      .catch((error) => console.debug(error));
-    setFound(data.find(element => element.username == 'name 1' && element.password == 'password 1'));
-    console.log(found);
-
+      .catch(error => console.debug(error));
   };
 
   const onLoginPressed = () => {
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
+    const emailError = emailValidator(email.value);
+    const passwordError = passwordValidator(password.value);
     console.log(email.value);
-    login();
     if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
+      setEmail({ ...email, error: emailError });
+      setPassword({ ...password, error: passwordError });
+      return;
     }
-  }
+    else {
+      login(email.value, password.value);
+
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -46,7 +55,7 @@ export default function LoginScreen({ navigation }) {
         label="Email"
         returnKeyType="next"
         value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
+        onChangeText={text => setEmail({ value: text, error: '' })}
         error={!!email.error}
         errorText={email.error}
         autoCapitalize="none"
@@ -58,7 +67,7 @@ export default function LoginScreen({ navigation }) {
         label="Password"
         returnKeyType="done"
         value={password.value}
-        onChangeText={(text) => setPassword({ value: text, error: '' })}
+        onChangeText={text => setPassword({ value: text, error: '' })}
         error={!!password.error}
         errorText={password.error}
         secureTextEntry
@@ -75,8 +84,8 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
-    </View >
-  )
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -85,7 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   forgotPassword: {
     width: '100%',
@@ -102,6 +111,6 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: "#49A6ED",
+    color: '#49A6ED',
   },
-})
+});

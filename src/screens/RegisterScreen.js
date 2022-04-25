@@ -1,41 +1,53 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native'
-import { Text } from 'react-native-paper'
-import Background from '../components/Background'
-import Logo from '../components/Logo'
-import Header from '../components/Header'
-import Button from '../components/Button'
-import TextInput from '../components/TextInput'
-import BackButton from '../components/IconBack'
-import { theme } from '../core/theme'
-import { emailValidator } from '../helpers/emailValidator'
-import { passwordValidator } from '../helpers/passwordValidator'
-import { nameValidator } from '../helpers/nameValidator'
+import React, { useState } from 'react';
+import { View, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Text } from 'react-native-paper';
+import Logo from '../components/Logo';
+import Header from '../components/Header';
+import Button from '../components/Button';
+import TextInput from '../components/TextInput';
+import BackButton from '../components/IconBack';
+import { emailValidator } from '../helpers/emailValidator';
+import { passwordValidator } from '../helpers/passwordValidator';
+import { nameValidator } from '../helpers/nameValidator';
 
 export default function RegisterScreen({ navigation }) {
-  const [name, setName] = useState({ value: '', error: '' })
-  const [email, setEmail] = useState({ value: '', error: '' })
-  const [password, setPassword] = useState({ value: '', error: '' })
-  function handleBackButtonClick() {
-    navigate('LoginScreen');
+  const [name, setName] = useState({ value: '', error: '' });
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
 
-  }
-  const { navigate } = navigation;
+  const registerUser = (username, password, name) => {
+    console.log('test');
+    fetch('https://625f91c453a42eaa07f6fbd4.mockapi.io/Users', {
+      method: 'post',
+      mode: 'no-cors',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        name: name,
+      })
+    });
+  };
   const onSignUpPressed = () => {
-    const nameError = nameValidator(name.value)
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
+    const nameError = nameValidator(name.value);
+    const emailError = emailValidator(email.value);
+    const passwordError = passwordValidator(password.value);
     if (emailError || passwordError || nameError) {
-      setName({ ...name, error: nameError })
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
+      setName({ ...name, error: nameError });
+      setEmail({ ...email, error: emailError });
+      setPassword({ ...password, error: passwordError });
+      return;
+    } else {
+      registerUser(email.value, password.value, name.value);
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'LoginScreen'}],
+      });
     }
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'LoginScreen' }],
-    })
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,7 +59,7 @@ export default function RegisterScreen({ navigation }) {
           label="Name"
           returnKeyType="next"
           value={name.value}
-          onChangeText={(text) => setName({ value: text, error: '' })}
+          onChangeText={text => setName({ value: text, error: '' })}
           error={!!name.error}
           errorText={name.error}
         />
@@ -55,7 +67,7 @@ export default function RegisterScreen({ navigation }) {
           label="Email"
           returnKeyType="next"
           value={email.value}
-          onChangeText={(text) => setEmail({ value: text, error: '' })}
+          onChangeText={text => setEmail({ value: text, error: '' })}
           error={!!email.error}
           errorText={email.error}
           autoCapitalize="none"
@@ -67,7 +79,7 @@ export default function RegisterScreen({ navigation }) {
           label="Password"
           returnKeyType="done"
           value={password.value}
-          onChangeText={(text) => setPassword({ value: text, error: '' })}
+          onChangeText={text => setPassword({ value: text, error: '' })}
           error={!!password.error}
           errorText={password.error}
           secureTextEntry
@@ -75,8 +87,7 @@ export default function RegisterScreen({ navigation }) {
         <Button
           mode="contained"
           onPress={onSignUpPressed}
-          style={{ marginTop: 24 }}
-        >
+          style={{ marginTop: 24 }}>
           Sign Up
         </Button>
         <View style={styles.row}>
@@ -87,24 +98,19 @@ export default function RegisterScreen({ navigation }) {
         </View>
       </View>
     </SafeAreaView>
-
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // paddingHorizontal: 16,
     flex: 1,
-    // flexDirection: 'column',
-    // justifyContent: 'center',
-    // alignItems: 'center'
   },
   column: {
     paddingHorizontal: 16,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   row: {
@@ -113,6 +119,6 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: "#49A6ED",
+    color: '#49A6ED',
   },
-})
+});
